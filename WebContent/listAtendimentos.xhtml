@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<ui:composition template="/template.xhtml">
+			<ui:define name="corpo">
+				<h2 style="text-align: center;">Atendimentos</h2>
+				
+				<p:dataTable value="#{atendimentoBean.atendimentos}" var="atendimento" paginator="true" rows="4">
+					<p:column headerText="Data do Atendimento">
+						<h:outputText value="#{atendimento.data.time}">
+							<f:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Médico">
+						#{atendimento.medico.nome}
+					</p:column>
+					<p:column headerText="Enfermeiro">
+						#{atendimento.enfermeiro}
+					</p:column>
+					<p:column headerText="Paciente">
+						#{atendimento.paciente.nome}
+					</p:column>
+				</p:dataTable>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

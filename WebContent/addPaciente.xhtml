@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		 xmlns:h="http://java.sun.com/jsf/html"
+		 xmlns:f="http://java.sun.com/jsf/core"
+		 xmlns:ui="http://java.sun.com/jsf/facelets"
+		 xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<ui:composition template="/template.xhtml">
+	
+			<ui:define name="corpo">
+				<h:form id="cadastro">
+					<p:messages styleClass="erros"/>
+					<fieldset>
+						
+						<h2 style="text-align: center;">
+							<h:outputText value="Cadastro de Pacientes" rendered="#{empty pacienteBean.paciente.id}"/>
+						</h2>
+					
+						<h:outputLabel value="Nome" for="nome" />
+						<h:inputText value="#{pacienteBean.paciente.nome}" id="nome" required="true" requiredMessage="O nome deve ser informado"/>
+						
+						<h:outputLabel value="CPF" for="cpf"/>
+						<p:inputMask value="#{pacienteBean.paciente.cpf}" mask="999.999.999-99" id="cpf" required="true" requiredMessage="O CPF deve ser informado"/>
+						
+						<h:outputLabel value="Telefone" for="telefone"/>
+						<p:inputMask value="#{pacienteBean.paciente.telefone}" mask="(99)9 9999-9999" id="telefone" required="true" requiredMessage="O telefone deve ser informado"/>
+						
+						<h:outputLabel value="Endereço" for="endereco"/>
+						<h:inputText value="#{pacienteBean.paciente.endereco}" id="endereco" required="true" requiredMessage="O endereço deve ser informado"/>
+						
+						<h:outputLabel value="Data Nascimento" for="dataNascimento"/>
+						<p:calendar value="#{pacienteBean.paciente.dataNascimento.time}" pattern="dd/MM/yyyy" id="dataNascimento" required="true" requiredMessage="A data de nascimento deve ser informada"/>
+						
+						<p:outputLabel for="sexo" value="Sexo" />
+        				<p:selectOneRadio id="sexo" value="#{pacienteBean.paciente.sexo}" required="true" requiredMessage="O sexo deve ser informado">
+            				<f:selectItem itemLabel="Masculino" itemValue="masculino" />
+            				<f:selectItem itemLabel="Feminino" itemValue="feminino" />
+        				</p:selectOneRadio>
+        					
+						<h:commandButton action="#{pacienteBean.grava}" value="Salvar">
+							<f:ajax execute="@form" render=":cadastro"></f:ajax>
+						</h:commandButton>
+					</fieldset>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

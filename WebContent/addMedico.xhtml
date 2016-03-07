@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		 xmlns:h="http://java.sun.com/jsf/html"
+		 xmlns:f="http://java.sun.com/jsf/core"
+		 xmlns:ui="http://java.sun.com/jsf/facelets"
+		 xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<ui:composition template="/template.xhtml">
+	
+			<ui:define name="corpo">
+				<h:form id="cadastro">
+					<p:messages styleClass="erros"/>
+					<fieldset>
+					
+						<h2 style="text-align: center;">
+							<h:outputText value="Cadastro de Médicos" rendered="#{empty medicoBean.medico.id}"/>
+						</h2>
+					
+						<h:outputLabel value="Nome" for="nome" />
+						<h:inputText value="#{medicoBean.medico.nome}" id="nome" required="true" requiredMessage="O nome deve ser informado"/>
+						
+						<h:outputLabel value="CRM" for="crm"/>
+						<p:inputMask value="#{medicoBean.medico.crm}" mask="99999999-9" id="crm" required="true" requiredMessage="O CRM deve ser informado"/>
+						
+						<h:outputLabel value="Telefone" for="telefone"/>
+						<p:inputMask value="#{medicoBean.medico.telefone}" mask="(99)9 9999-9999" id="telefone" required="true" requiredMessage="O telefone deve ser informado"/>
+						
+						<h:outputLabel value="Área" for="area"/>
+						<h:inputText value="#{medicoBean.medico.area}" id="area" required="true" requiredMessage="A área deve ser informada"/>
+						
+						<h:outputLabel value="Salário" for="salario"/>
+						<h:inputText value="#{medicoBean.medico.salario}" id="salario" required="true" requiredMessage="O salário deve ser informado"/>
+						
+						<h:commandButton action="#{medicoBean.grava}" value="Salvar">
+							<f:ajax execute="@form" render=":cadastro"></f:ajax>
+						</h:commandButton>
+					</fieldset>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

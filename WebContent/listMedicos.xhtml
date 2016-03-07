@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<ui:composition template="/template.xhtml">
+			<ui:define name="corpo">
+				<script>
+				function exibeFormulario()
+				{
+					var idForm = document.getElementById('divForm');
+					idForm.style.display = 'block';
+				}
+				
+				function escondeFormulario()
+				{
+					var idForm = document.getElementById('divForm');
+					idForm.style.display = 'none';					
+				}
+				</script>
+				
+				<h2 style="text-align: center;">Médicos</h2>
+				
+				<h:form id="listar">
+					<fieldset>
+						<p:dataTable value="#{medicoBean.medicos}" var="medico" paginator="true" rows="4">
+							<p:column headerText="CRM">
+								#{medico.crm}
+							</p:column>
+							<p:column headerText="Nome">
+								#{medico.nome}
+							</p:column>
+							<p:column headerText="Telefone">
+								#{medico.telefone}
+							</p:column>
+							<p:column headerText="Área">
+								#{medico.area}
+							</p:column>
+							<p:column headerText="Salário">
+								R$ #{medico.salario}
+							</p:column>
+							
+							<p:column headerText="Editar">
+								<h:commandLink value="Editar"  styleClass="btn btn-logout" style="margin-left: 22px;" id="botaoEdita" onclick="exibeFormulario()">
+									<f:setPropertyActionListener value="#{medico}" target="#{medicoBean.medico}"/>
+									<f:ajax execute="@form" render=":listar :editar"></f:ajax>
+								</h:commandLink>
+							</p:column>
+								
+							<p:column headerText="Remover">
+								<h:commandLink action="#{medicoBean.remove(medico)}" value="Remover" styleClass="btn btn-logout" style="margin-left: 12px;">
+									<f:ajax render="@form"></f:ajax>
+								</h:commandLink>
+							</p:column>
+						</p:dataTable>
+					</fieldset>
+				</h:form>
+				
+				<div id="divForm" style="display: none;">
+					<h:form id="editar" rendered="true">
+						<h2 style="text-align: center;">Editar Dados do Médico</h2>
+						
+						<p:messages styleClass="erros"/>
+						<fieldset>
+							<h:outputLabel value="Nome" for="nome" />
+							<h:inputText value="#{medicoBean.medico.nome}" id="nome"/>
+							
+							<h:outputLabel value="CRM" for="crm"/>
+							<p:inputMask value="#{medicoBean.medico.crm}" mask="99999999-9" id="crm" readonly="true"/>
+							
+							<h:outputLabel value="Telefone" for="telefone"/>
+							<p:inputMask value="#{medicoBean.medico.telefone}" mask="(99)9 9999-9999" id="telefone"/>
+							
+							<h:outputLabel value="Área" for="area"/>
+							<h:inputText value="#{medicoBean.medico.area}" id="area"/>
+							
+							<h:outputLabel value="Salário" for="salario"/>
+							<h:inputText value="#{medicoBean.medico.salario}" id="salario"/>
+							
+							<h:commandButton action="#{medicoBean.grava}" value="Salvar Alterações">
+								<f:ajax execute="@form" render=":editar"></f:ajax>
+							</h:commandButton>
+							
+							<h:commandButton action="#{medicoBean.cancela}" value="Cancelar Alterações" onclick="escondeFormulario()" id="botaoCancela">
+								<f:ajax execute="@form" render=":editar"></f:ajax>
+							</h:commandButton>
+						</fieldset>
+					</h:form>
+				</div>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

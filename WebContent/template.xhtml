@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>UPA - Manhuaçu</title>
+		<link rel="icon" type="image/ico" href="resources/imagens/logo-upa.png"/>
+		<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+		<h:outputStylesheet name="style.css" library="css" />
+	</h:head>
+	
+	<h:body>
+		<div id="cabecalho">
+			<h:graphicImage library="imagens" name="logo-upa.png" id="logoCompany"/>
+			<div id="usuarioLogado">
+				<h:form rendered="#{not empty loginBean.usuario.login}">
+					Usuário #{loginBean.usuario.login} logado
+					<h:commandLink action="#{loginBean.logout()}" value="Sair" styleClass="btn btn-danger btn-logout"/>
+				</h:form>
+			</div>
+			<h:form style="float: right; right: 50%; margin-right: -450px;">
+				<p:themeSwitcher>
+					<f:selectItem itemLabel="Escolha um tema" itemValue=""/>
+					<f:selectItem itemLabel="Afternoon" itemValue="afternoon"/>
+					<f:selectItem itemLabel="Aristo" itemValue="aristo"/>
+					<f:selectItem itemLabel="Boostrap" itemValue="bootstrap"/>
+					<f:selectItem itemLabel="Dot-Luv" itemValue="dot-luv"/>
+					<f:selectItem itemLabel="Rocket" itemValue="rocket"/>
+				</p:themeSwitcher>
+			</h:form>
+		</div>
+		
+		<div id="conteudo">
+			<h:form rendered="#{not empty loginBean.usuario.login}" style="margin-left: 120px;">
+				<p:menubar>
+						<p:menuitem value="Início" url="index.xhtml"/>
+						<p:menuitem value="Cadastro de Médicos" url="addMedico.xhtml"/>
+						<p:menuitem value="Cadastro de Pacientes" url="addPaciente.xhtml"/>
+						<p:menuitem value="Novo Atendimento" url="addAtendimento.xhtml" rendered="#{not empty medicoBean.getMedicos() and not empty pacienteBean.getPacientes()}"/>
+						<p:menuitem value="Médicos" url="listMedicos.xhtml" rendered="#{not empty medicoBean.getMedicos()}"/>
+						<p:menuitem value="Pacientes" url="listPacientes.xhtml" rendered="#{not empty pacienteBean.getPacientes()}"/>
+						<p:menuitem value="Atentimentos" url="listAtendimentos.xhtml" rendered="#{not empty atendimentoBean.getAtendimentos()}"/>
+				</p:menubar>
+			</h:form>
+			<ui:insert name="corpo" />
+		</div>
+		
+		<div id="rodape">
+			Copyright 2015 - Todos os Direitos Reservados para UPA - Manhuaçu
+		</div>
+	</h:body>
+</html>

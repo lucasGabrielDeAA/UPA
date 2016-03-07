@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<ui:composition template="/template.xhtml">
+			<ui:define name="corpo">
+			
+				<script>
+				function exibeFormulario()
+				{
+					var idForm = document.getElementById('divForm');
+					idForm.style.display = 'block';
+				}
+				
+				function escondeFormulario()
+				{
+					var idForm = document.getElementById('divForm');
+					idForm.style.display = 'none';					
+				}
+				</script>
+				
+				<h2 style="text-align: center;">Pacientes</h2>
+				
+				<h:form id="listar">
+					<fieldset>
+						<p:dataTable value="#{pacienteBean.pacientes}" var="paciente" paginator="true" rows="4">
+							<p:column headerText="CPF" >
+								#{paciente.cpf}
+							</p:column>
+							<p:column headerText="Nome">
+								#{paciente.nome}
+							</p:column>
+							<p:column headerText="Telefone">
+								#{paciente.telefone}
+							</p:column>
+							<p:column headerText="Endereço">
+								#{paciente.endereco}
+							</p:column>
+							<p:column headerText="Sexo">
+								<p style="margin-left: 18px;">#{paciente.sexo}</p>
+							</p:column>
+							<p:column headerText="Data de Nascimento">
+								<h:outputText value="#{paciente.dataNascimento.time}" style="margin-left: 18px;">
+									<f:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Editar">
+								<h:commandLink value="Editar"  styleClass="btn btn-logout" style="margin-left: 18px;" id="botaoEdita" onclick="exibeFormulario()">
+									<f:setPropertyActionListener value="#{paciente}" target="#{pacienteBean.paciente}"/>
+									<f:ajax execute="@form" render=":listar :editar"></f:ajax>
+								</h:commandLink>
+							</p:column>
+								
+							<p:column headerText="Remover">
+								<h:commandLink action="#{pacienteBean.remove(paciente)}" value="Remover" styleClass="btn btn-logout" style="margin-left: 12px;">
+									<f:ajax render="@form"></f:ajax>
+								</h:commandLink>
+							</p:column>
+						</p:dataTable>
+					</fieldset>
+				</h:form>
+				
+				<div id="divForm" style="display: none;">
+					<h:form id="editar" rendered="true">
+						<h2 style="text-align: center;">Editar Dados do Paciente</h2>
+						
+						<p:messages styleClass="erros"/>
+						<fieldset>
+							<h:outputLabel value="Nome" for="nome" />
+							<h:inputText value="#{pacienteBean.paciente.nome}" id="nome"/>
+							
+							<h:outputLabel value="CPF" for="cpf"/>
+							<p:inputMask value="#{pacienteBean.paciente.cpf}" mask="999.999.999-99" id="cpf" readonly="true"/>
+							
+							<h:outputLabel value="Telefone" for="telefone"/>
+							<p:inputMask value="#{pacienteBean.paciente.telefone}" mask="(99)9 9999-9999" id="telefone"/>
+							
+							<h:outputLabel value="Endereço" for="endereco"/>
+							<h:inputText value="#{pacienteBean.paciente.endereco}" id="endereco"/>
+							
+							<h:outputLabel value="Data Nascimento" for="dataNascimento"/>
+							<p:calendar value="#{pacienteBean.paciente.dataNascimento.time}" pattern="dd/MM/yyyy" id="dataNascimento"/>
+							
+							<p:outputLabel for="sexo" value="Sexo" />
+        					<p:selectOneRadio id="sexo" value="#{pacienteBean.paciente.sexo}">
+            					<f:selectItem itemLabel="Masculino" itemValue="masculino" />
+            					<f:selectItem itemLabel="Feminino" itemValue="feminino" />
+        					</p:selectOneRadio>
+							
+							<h:commandButton action="#{pacienteBean.grava}" value="Salvar Alterações">
+								<f:ajax execute="@form" render=":editar"></f:ajax>
+							</h:commandButton>
+							
+							<h:commandButton action="#{pacienteBean.cancela}" value="Cancelar Alterações" onclick="escondeFormulario()" id="botaoCancela">
+								<f:ajax execute="@form" render=":editar"></f:ajax>
+							</h:commandButton>
+						</fieldset>
+					</h:form>
+				</div>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

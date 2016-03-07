@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		 xmlns:h="http://java.sun.com/jsf/html"
+		 xmlns:f="http://java.sun.com/jsf/core"
+		 xmlns:ui="http://java.sun.com/jsf/facelets"
+		 xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<ui:composition template="/template.xhtml">
+	
+			<ui:define name="corpo">
+				<h:form id="cadastro">
+					<p:messages styleClass="erros"/>
+					<fieldset>
+					
+						<h2 style="text-align: center;">
+							<h:outputText value="Novo Atendimento" rendered="#{empty atendimentoBean.atendimento.id}"/>
+						</h2>
+						
+						<h:outputLabel value="Nome do Paciente" for="paciente" />
+						<h:selectOneMenu value="#{atendimentoBean.idPaciente}">
+							<f:selectItems value="#{pacienteBean.pacientes}" var="paciente" itemValue="#{paciente.id}" itemLabel="#{paciente.nome}"/>
+						</h:selectOneMenu>
+						
+						<h:outputLabel value="Nome do Médico" for="medico"/>
+						<h:selectOneMenu value="#{atendimentoBean.idMedico}">
+							<f:selectItems value="#{medicoBean.medicos}" var="medico" itemValue="#{medico.id}" itemLabel="#{medico.nome}"/>
+						</h:selectOneMenu>
+						
+						<h:outputLabel value="Nome do Enfermeiro" for="enfermeiro"/>
+						<h:inputText value="#{atendimentoBean.atendimento.enfermeiro}" id="enfermeiro"/>
+						
+						<h:outputLabel value="Receita" for="receita"/>
+						<h:inputText value="#{atendimentoBean.atendimento.receita}" id="receita"/>
+						
+						<h:outputLabel value="Data do Atendimento" for="data"/>
+						<p:calendar value="#{atendimentoBean.atendimento.data.time}" pattern="dd/MM/yyyy" mask="99/99/9999" id="data"/>
+						
+						<p:editor id="recomendacoes" widgetVar="editorWidget" value="#{atendimentoBean.atendimento.recomendacoes}" width="600" />
+ 
+					    <h:panelGrid columns="2" style="margin-top: 10px; margin-left: 135px;">
+					        <p:commandButton value="Exibir" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-check" />
+					 
+					        <p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-refresh" />
+					    </h:panelGrid>
+					 
+					    <p:dialog header="Recomendações do Médico" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+					        <h:outputText id="display" value="#{atendimentoBean.atendimento.recomendacoes}" escape="false" />
+					    </p:dialog>
+						
+						<h:commandButton action="#{atendimentoBean.grava}" value="Salvar">
+							<f:ajax execute="@form" render=":cadastro"></f:ajax>
+						</h:commandButton>
+					</fieldset>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>
